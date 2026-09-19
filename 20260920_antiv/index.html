@@ -200,7 +200,7 @@
     </div>
 
     <script>
-      const eventConfig = {
+       const eventConfig = {
             title: "Generale, questa non è la sua trincea",
             subtitle: "Quindi, per favore, resti dietro la collina",
             date: "2026-09-20",
@@ -213,6 +213,7 @@
             guests: [],
             eventId: "20260920_antiv"
         };
+        
 
         async function geocodeLocation(locationName) {
             try {
@@ -220,12 +221,8 @@
                     `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(locationName)}&format=json&limit=1`
                 );
                 const data = await response.json();
-                
                 if (data.length > 0) {
-                    return {
-                        lat: parseFloat(data[0].lat),
-                        lng: parseFloat(data[0].lon)
-                    };
+                    return { lat: parseFloat(data[0].lat), lng: parseFloat(data[0].lon) };
                 }
             } catch (error) {
                 console.error('Geocoding error:', error);
@@ -252,9 +249,13 @@
 
             const locationLink = document.getElementById('locationLink');
             locationLink.textContent = eventConfig.location;
-            locationLink.href = eventConfig.locationCoordinates
-                ? `geo:${eventConfig.locationCoordinates.lat},${eventConfig.locationCoordinates.lng}?q=${encodeURIComponent(eventConfig.location)}`
-                : `geo:0,0?q=${encodeURIComponent(eventConfig.location)}`;
+            
+            // Se ci sono coordinate, usa quelle per Google Maps; altrimenti usa il testo della location
+            if (eventConfig.locationCoordinates && eventConfig.locationCoordinates.lat && eventConfig.locationCoordinates.lng) {
+                locationLink.href = `https://www.google.com/maps/@${eventConfig.locationCoordinates.lat},${eventConfig.locationCoordinates.lng},15z`;
+            } else {
+                locationLink.href = `https://www.google.com/maps/search/${encodeURIComponent(eventConfig.location)}`;
+            }
 
             if (eventConfig.guests && eventConfig.guests.length > 0) {
                 document.getElementById('guests-section').style.display = 'block';
@@ -271,7 +272,6 @@
         function downloadCalendar() {
             const now = new Date();
             const timestamp = now.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
-
             const icsContent = `BEGIN:VCALENDAR
 VERSION:2.0
 PRODID:-//Event Calendar//EN
@@ -310,4 +310,3 @@ END:VCALENDAR`;
     </script>
 </body>
 </html>
-
