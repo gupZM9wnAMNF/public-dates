@@ -29,3 +29,113 @@
         .header {
             padding: 30px 20px 20px;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+color: white;
+            text-align: center;
+        }
+        .header h1 { font-size: 28px; margin-bottom: 8px; }
+        .header p { font-size: 16px; opacity: 0.95; }
+        .event-image { width: 100%; height: auto; display: block; }
+        .details { padding: 20px; }
+        .detail-item {
+            margin-bottom: 16px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid #eee;
+        }
+        .detail-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+        .detail-label { font-weight: 600; color: #333; margin-bottom: 6px; display: block; }
+        .detail-value { color: #666; font-size: 15px; line-height: 1.5; }
+        .detail-value a { color: #667eea; text-decoration: none; }
+        .detail-value a:hover { text-decoration: underline; }
+        .guests-list { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
+        .guest-tag { background: #f0f0f0; padding: 6px 12px; border-radius: 20px; font-size: 14px; color: #555; }
+        .actions { display: flex; gap: 12px; padding: 20px; background: #f9f9f9; }
+        .btn {
+            flex: 1;
+            padding: 12px 16px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .btn-primary { background: #667eea; color: white; }
+        .btn-primary:hover { background: #5568d3; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4); }
+        .btn-secondary { background: #25d366; color: white; }
+        .btn-secondary:hover { background: #1fb654; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(37, 211, 102, 0.4); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>{{title}}</h1>
+            <p>{{subtitle}}</p>
+        </div>
+        <img class="event-image" src="{{image_url}}" alt="{{title}}">
+        <div class="details">
+            <div class="detail-item">
+                <span class="detail-label">📅 Data</span>
+                <span class="detail-value">{{date_human}}</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">⏰ Orario</span>
+                <span class="detail-value">{{time}}</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">📍 Luogo</span>
+                <span class="detail-value"><a href="{{map_url}}" target="_blank" rel="noopener">{{location}}</a></span>
+            </div>
+            {{guests_html}}
+            <div class="detail-item">
+                <span class="detail-label">📝 Descrizione</span>
+                <span class="detail-value">{{description}}</span>
+            </div>
+        </div>
+        <div class="actions">
+            <button class="btn btn-primary" onclick="downloadCalendar()">Scarica Calendario</button>
+            <button class="btn btn-secondary" onclick="shareWhatsApp()">Condividi WhatsApp</button>
+        </div>
+    </div>
+
+    <script>
+        const eventConfig = {{event_json}};
+
+        function downloadCalendar() {
+            const esc = s => s.replace(/[\\;,]/g, m => '\\' + m).replace(/\n/g, '\\n');
+            const d = eventConfig.date.replace(/-/g, '');
+            const t = s => s.replace(':', '') + '00';
+            const stamp = new Date().toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
+            const c = eventConfig.locationCoordinates;
+
+            const lines = [
+                'BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Event Calendar//EN',
+                'CALSCALE:GREGORIAN', 'METHOD:PUBLISH', 'BEGIN:VEVENT',
+                `UID:${eventConfig.eventId}@github.io`,
+                `DTSTAMP:${stamp}`,
+                `DTSTART:${d}T${t(eventConfig.startTime)}`,
+                `DTEND:${d}T${t(eventConfig.endTime)}`,
+                `SUMMARY:${esc(eventConfig.title)}`,
+                `DESCRIPTION:${esc(eventConfig.description)}`,
+                `LOCATION:${esc(eventConfig.location)}`,
+                ...(c ? [`GEO:${c.lat};${c.lng}`] : []),
+                'END:VEVENT', 'END:VCALENDAR'
+            ];
+
+            const blob = new Blob([lines.join('\r\n')], { type: 'text/calendar' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${eventConfig.eventId}.ics`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        function shareWhatsApp() {
+            const message = `📅 ${eventConfig.title}\n⏰ ${eventConfig.dateHuman}, ${eventConfig.startTime} - ${eventConfig.endTime}\n📍 ${eventConfig.location}\n\n${eventConfig.description}\n\n${eventConfig.pageUrl}`;
+            window.open(`https://wa.me/?text=${encodeURIComponent(message)}`, '_blank');
+        }
+    </script>
+</body>
+</html>
