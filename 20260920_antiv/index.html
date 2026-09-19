@@ -4,14 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title id="pageTitle">Evento</title>
-    
-    <!-- Open Graph Meta Tags -->
     <meta property="og:title" id="ogTitle" content="Evento">
-    <meta property="og:description" id="ogDescription" content="Unisciti a noi!">
+    <meta property="og:description" id="ogDescription" content="">
     <meta property="og:image" id="ogImage" content="">
     <meta property="og:url" id="ogUrl" content="">
-    <meta property="og:type" content="event">
-    
+    <meta property="og:type" content="website">
     <style>
         * {
             margin: 0;
@@ -21,8 +18,7 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
+            background: #f5f5f5;
             padding: 20px;
         }
 
@@ -30,41 +26,28 @@
             max-width: 600px;
             margin: 0 auto;
             background: white;
-            border-radius: 16px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
             overflow: hidden;
-        }
-
-        .back-link {
-            display: inline-block;
-            padding: 15px 20px;
-            color: #667eea;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 14px;
-        }
-
-        .back-link:hover {
-            background: #f5f5f5;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
 
         .header {
-            padding: 30px 20px;
-            text-align: center;
+            padding: 30px 20px 20px;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
+            text-align: center;
         }
 
         .header h1 {
             font-size: 28px;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
         }
 
         .header p {
-            font-size: 14px;
-            opacity: 0.9;
+            font-size: 16px;
+            opacity: 0.95;
         }
-        
+
         .event-image {
             width: 100%;
             height: auto;
@@ -72,42 +55,31 @@
         }
 
         .details {
-            padding: 30px 20px;
+            padding: 20px;
         }
 
         .detail-item {
-            display: flex;
-            align-items: flex-start;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid #f0f0f0;
+            margin-bottom: 16px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid #eee;
         }
 
         .detail-item:last-child {
             border-bottom: none;
-        }
-
-        .detail-icon {
-            font-size: 24px;
-            margin-right: 15px;
-            min-width: 30px;
-        }
-
-        .detail-content {
-            flex: 1;
+            margin-bottom: 0;
+            padding-bottom: 0;
         }
 
         .detail-label {
-            font-size: 12px;
-            color: #999;
             font-weight: 600;
-            text-transform: uppercase;
-            margin-bottom: 5px;
+            color: #333;
+            margin-bottom: 6px;
+            display: block;
         }
 
         .detail-value {
-            font-size: 16px;
-            color: #333;
+            color: #666;
+            font-size: 15px;
             line-height: 1.5;
         }
 
@@ -127,128 +99,108 @@
         .guests-list {
             display: flex;
             flex-wrap: wrap;
-            gap: 10px;
-            margin-top: 10px;
+            gap: 8px;
+            margin-top: 6px;
         }
 
         .guest-tag {
             background: #f0f0f0;
-            padding: 8px 12px;
+            padding: 6px 12px;
             border-radius: 20px;
-            font-size: 13px;
-            color: #333;
+            font-size: 14px;
+            color: #555;
         }
 
         .actions {
             display: flex;
-            gap: 10px;
+            gap: 12px;
             padding: 20px;
             background: #f9f9f9;
         }
 
         .btn {
             flex: 1;
-            padding: 14px 20px;
+            padding: 12px 16px;
             border: none;
             border-radius: 8px;
             font-size: 14px;
             font-weight: 600;
             cursor: pointer;
-            text-align: center;
             transition: all 0.3s ease;
-            text-decoration: none;
-            display: inline-block;
         }
 
         .btn-primary {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: #667eea;
             color: white;
         }
 
         .btn-primary:hover {
+            background: #5568d3;
             transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
         }
 
         .btn-secondary {
-            background: #f0f0f0;
-            color: #333;
+            background: #25d366;
+            color: white;
         }
 
         .btn-secondary:hover {
-            background: #e0e0e0;
+            background: #1fb654;
             transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(37, 211, 102, 0.4);
+        }
+
+        .back-link {
+            display: inline-block;
+            padding: 20px;
+            color: #667eea;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <a href="../" class="back-link">← Indietro</a>
-
         <div class="header">
             <h1 id="eventTitle">Evento</h1>
-            <p id="eventSubtitle">Ti aspettiamo!</p>
+            <p id="eventSubtitle"></p>
         </div>
-
-        <img id="eventImage" src="" alt="Evento" class="event-image">
-
+        <img id="eventImage" class="event-image" src="" alt="Evento">
         <div class="details">
-            <!-- Data -->
             <div class="detail-item">
-                <div class="detail-icon">📅</div>
-                <div class="detail-content">
-                    <div class="detail-label">Data</div>
-                    <div class="detail-value" id="eventDate">—</div>
-                </div>
+                <span class="detail-label">📅 Data</span>
+                <span class="detail-value" id="eventDate"></span>
             </div>
-
-            <!-- Orario -->
             <div class="detail-item">
-                <div class="detail-icon">⏰</div>
-                <div class="detail-content">
-                    <div class="detail-label">Orario</div>
-                    <div class="detail-value" id="eventTime">—</div>
-                </div>
+                <span class="detail-label">⏰ Orario</span>
+                <span class="detail-value" id="eventTime"></span>
             </div>
-
-            <!-- Luogo -->
             <div class="detail-item">
-                <div class="detail-icon">📍</div>
-                <div class="detail-content">
-                    <div class="detail-label">Luogo</div>
-                    <div class="detail-value">
-                        <a id="eventLocation" href="geo:" target="_blank">—</a>
-                    </div>
-                </div>
+                <span class="detail-label">📍 Luogo</span>
+                <span class="detail-value"><a id="locationLink" href="">Luogo</a></span>
             </div>
-
-            <!-- Ospiti (condizionale) -->
             <div class="detail-item" id="guests-section">
-                <div class="detail-icon">👥</div>
-                <div class="detail-content">
-                    <div class="detail-label">Ospiti</div>
-                    <div class="guests-list" id="guestsList"></div>
-                </div>
+                <span class="detail-label">👥 Ospiti</span>
+                <div class="guests-list" id="guestsList"></div>
             </div>
-
-            <!-- Descrizione -->
             <div class="detail-item">
-                <div class="detail-icon">📝</div>
-                <div class="detail-content">
-                    <div class="detail-label">Descrizione</div>
-                    <div class="detail-value" id="eventDescription">—</div>
-                </div>
+                <span class="detail-label">📝 Descrizione</span>
+                <span class="detail-value" id="eventDescription"></span>
             </div>
         </div>
-
         <div class="actions">
-            <button class="btn btn-primary" onclick="downloadCalendar()">📥 Scarica in Calendario</button>
-            <button class="btn btn-secondary" onclick="shareWhatsApp()">💬 Condividi su WhatsApp</button>
+            <button class="btn btn-primary" onclick="downloadCalendar()">Scarica Calendario</button>
+            <button class="btn btn-secondary" onclick="shareWhatsApp()">Condividi WhatsApp</button>
         </div>
     </div>
+    <a href="../" class="back-link">← Indietro</a>
 
     <script>
-        // === CONFIGURAZIONE EVENTO ===
         const eventConfig = {
             title: "Generale, questa non è la sua collina",
             subtitle: "Quindi, per favore, resti dietro la collina",
@@ -263,91 +215,78 @@
             eventId: "20260920_antiv"
         };
 
-        // === INIZIALIZZAZIONE ===
-        document.addEventListener('DOMContentLoaded', () => {
-            populateUI();
-        });
-
-        // === POPOLA L'INTERFACCIA ===
-        function populateUI() {
-            // Titolo pagina e meta tag
-            document.getElementById('pageTitle').textContent = eventConfig.title;
-            document.getElementById('ogTitle').setAttribute('content', eventConfig.title);
-            document.getElementById('ogDescription').setAttribute('content', eventConfig.description);
-            document.getElementById('ogImage').setAttribute('content', eventConfig.image);
-            document.getElementById('ogUrl').setAttribute('content', window.location.href);
-
-            // Header
-            document.getElementById('eventTitle').textContent = eventConfig.title;
-            document.getElementById('eventSubtitle').textContent = eventConfig.subtitle;
-
-            // Immagine
-            document.getElementById('eventImage').src = eventConfig.image;
-            document.getElementById('eventImage').alt = eventConfig.title;
-
-            // Data
-            const dateObj = new Date(eventConfig.date);
-            const formattedDate = dateObj.toLocaleDateString('it-IT', {
-                weekday: 'long',
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric'
-            });
-            document.getElementById('eventDate').textContent = formattedDate;
-
-            // Orario (startTime - endTime)
-            const timeRange = `${eventConfig.startTime} - ${eventConfig.endTime}`;
-            document.getElementById('eventTime').textContent = timeRange;
-
-            // Luogo con coordinate
-            const locationLink = document.getElementById('eventLocation');
-            locationLink.textContent = eventConfig.location;
-            if (eventConfig.locationCoordinates && eventConfig.locationCoordinates.lat && eventConfig.locationCoordinates.lng) {
-                locationLink.href = `geo:${eventConfig.locationCoordinates.lat},${eventConfig.locationCoordinates.lng}?q=${encodeURIComponent(eventConfig.location)}`;
-            } else {
-                locationLink.href = `geo:0,0?q=${encodeURIComponent(eventConfig.location)}`;
+        async function geocodeLocation(locationName) {
+            try {
+                const response = await fetch(
+                    `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(locationName)}&format=json&limit=1`
+                );
+                const data = await response.json();
+                
+                if (data.length > 0) {
+                    return {
+                        lat: parseFloat(data[0].lat),
+                        lng: parseFloat(data[0].lon)
+                    };
+                }
+            } catch (error) {
+                console.error('Geocoding error:', error);
             }
-
-            // Ospiti (mostra solo se presenti)
-            if (eventConfig.guests && eventConfig.guests.length > 0) {
-                document.getElementById('guests-section').style.display = 'flex';
-                const guestsList = document.getElementById('guestsList');
-                guestsList.innerHTML = '';
-                eventConfig.guests.forEach(guest => {
-                    const tag = document.createElement('div');
-                    tag.className = 'guest-tag';
-                    tag.textContent = guest;
-                    guestsList.appendChild(tag);
-                });
-            } else {
-                document.getElementById('guests-section').style.display = 'none';
-            }
-
-            // Descrizione
-            document.getElementById('eventDescription').textContent = eventConfig.description;
+            return null;
         }
 
-        // === SCARICA CALENDARIO ===
+        async function populateUI() {
+            // Se manca locationCoordinates, geocodifica automaticamente
+            if (eventConfig.location && !eventConfig.locationCoordinates) {
+                const coords = await geocodeLocation(eventConfig.location);
+                if (coords) {
+                    eventConfig.locationCoordinates = coords;
+                }
+            }
+
+            document.getElementById('pageTitle').textContent = eventConfig.title;
+            document.getElementById('eventTitle').textContent = eventConfig.title;
+            document.getElementById('eventSubtitle').textContent = eventConfig.subtitle;
+            document.getElementById('eventDate').textContent = eventConfig.date;
+            document.getElementById('eventTime').textContent = `${eventConfig.startTime} - ${eventConfig.endTime}`;
+            document.getElementById('eventImage').src = eventConfig.image;
+            document.getElementById('eventDescription').textContent = eventConfig.description;
+
+            const locationLink = document.getElementById('locationLink');
+            locationLink.textContent = eventConfig.location;
+            locationLink.href = eventConfig.locationCoordinates
+                ? `geo:${eventConfig.locationCoordinates.lat},${eventConfig.locationCoordinates.lng}`
+                : `geo:0,0?q=${encodeURIComponent(eventConfig.location)}`;
+
+            if (eventConfig.guests && eventConfig.guests.length > 0) {
+                document.getElementById('guests-section').style.display = 'block';
+                const guestsList = document.getElementById('guestsList');
+                guestsList.innerHTML = eventConfig.guests.map(guest => `<span class="guest-tag">${guest}</span>`).join('');
+            }
+
+            document.getElementById('ogTitle').content = eventConfig.title;
+            document.getElementById('ogDescription').content = eventConfig.description;
+            document.getElementById('ogImage').content = eventConfig.image;
+            document.getElementById('ogUrl').content = window.location.href;
+        }
+
         function downloadCalendar() {
-            const startDateTime = `${eventConfig.date.replace(/-/g, '')}T${eventConfig.startTime.replace(':', '')}00`;
-            const endDateTime = `${eventConfig.date.replace(/-/g, '')}T${eventConfig.endTime.replace(':', '')}00`;
-            
+            const now = new Date();
+            const timestamp = now.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
+
             const icsContent = `BEGIN:VCALENDAR
 VERSION:2.0
-PRODID:-//WhatsApp Event//EN
+PRODID:-//Event Calendar//EN
 CALSCALE:GREGORIAN
 METHOD:PUBLISH
-X-WR-CALNAME:${eventConfig.title}
-X-WR-TIMEZONE:Europe/Rome
 BEGIN:VEVENT
-UID:${eventConfig.eventId}@github.io
-DTSTAMP:${new Date().toISOString().replace(/[-:]/g, '').split('.')[0]}Z
-DTSTART:${startDateTime}
-DTEND:${endDateTime}
+UID:${eventConfig.eventId}
+DTSTAMP:${timestamp}
+DTSTART:${eventConfig.date.replace(/\s/g, '')}T${eventConfig.startTime.replace(':', '')}00
+DTEND:${eventConfig.date.replace(/\s/g, '')}T${eventConfig.endTime.replace(':', '')}00
 SUMMARY:${eventConfig.title}
 DESCRIPTION:${eventConfig.description}
 LOCATION:${eventConfig.location}
-GEO:${eventConfig.locationCoordinates ? eventConfig.locationCoordinates.lat + ';' + eventConfig.locationCoordinates.lng : '0;0'}
+${eventConfig.locationCoordinates ? `GEO:${eventConfig.locationCoordinates.lat};${eventConfig.locationCoordinates.lng}` : ''}
 END:VEVENT
 END:VCALENDAR`;
 
@@ -355,19 +294,20 @@ END:VCALENDAR`;
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = `${eventConfig.eventId}.ics`;
+            a.download = `${eventConfig.title.replace(/\s/g, '_')}.ics`;
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
             URL.revokeObjectURL(url);
         }
 
-        // === CONDIVIDI SU WHATSAPP ===
         function shareWhatsApp() {
-            const text = `Ciao! 👋\n\n🎉 ${eventConfig.title}\n📅 ${document.getElementById('eventDate').textContent}\n⏰ ${document.getElementById('eventTime').textContent}\n📍 ${eventConfig.location}\n\n${eventConfig.description}\n\n🔗 ${window.location.href}`;
-            const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(text)}`;
+            const message = `📅 ${eventConfig.title}\n⏰ ${eventConfig.date} ${eventConfig.startTime} - ${eventConfig.endTime}\n📍 ${eventConfig.location}\n\n${eventConfig.description}\n\n${window.location.href}`;
+            const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
             window.open(whatsappUrl, '_blank');
         }
+
+        populateUI();
     </script>
 </body>
 </html>
