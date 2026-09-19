@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evento - Caricamento in corso...</title>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            max-width: 500px;
+            width: 100%;
+            padding: 40px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            color: #333;
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .details {
+            margin-bottom: 30px;
+            border-left: 4px solid #667eea;
+            padding-left: 15px;
+        }
+        
+        .detail-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+        
+        .detail-label {
+            font-weight: 600;
+            color: #333;
+            min-width: 100px;
+            margin-right: 15px;
+        }
+        
+        .detail-item a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            word-break: break-word;
+        }
+        
+        .detail-item a:hover {
+            text-decoration: underline;
+        }
+        
+        .detail-item span {
+            color: #555;
+            word-break: break-word;
+        }
+        
+        .actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+        
+        button {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn-secondary {
+            background: #f0f0f0;
+            color: #333;
+        }
+        
+        .btn-secondary:hover {
+            background: #e0e0e0;
+        }
+        
+        .back-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        .back-link a {
+            color: #667eea;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        
+        .back-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 id="eventTitle">Evento</h1>
+            <p id="eventSubtitle">Ti aspettiamo!</p>
+        </div>
+        
+        <div class="details">
+            <div class="detail-item">
+                <span class="detail-label">📅 Data:</span>
+                <span id="eventDate"></span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">⏰ Ora:</span>
+                <span id="eventTime"></span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">📍 Luogo:</span>
+                <a id="eventLocationLink" href="">
+                    <span id="eventLocation"></span>
+                </a>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Descrizione:</span>
+                <span id="eventDescription"></span>
+            </div>
+        </div>
+        
+        <div class="actions">
+            <button class="btn-primary" onclick="downloadCalendar()">📥 Importa nel Calendario</button>
+            <button class="btn-secondary" onclick="shareWhatsApp()">💬 Condividi</button>
+        </div>
+        
+        <div class="back-link">
+            <a href="https://tuousername.github.io/evento/">← Torna agli eventi</a>
+        </div>
+    </div>
+    
+    <script>
+        const eventConfig = {
+            title: "Generale, questa non è la sua collina",
+            subtitle: "Quindi, per favore, resti dietro la collina",
+            date: "2026-09-20",
+            startTime: "10:00",
+            endTime: "13:00",
+            location: "Piazza Gualterio, Orvieto",
+            locationCoordinates: { lat: 42.718084, lng:12.111327 }, // per geo URI
+            description: "Picchetto orvietano democratico e antifascista con microfono aperto",
+            ogImage: "https://tuousername.github.io/evento/img/compleanno-maria.jpg",
+            eventId: "compleanno-maria-2026"
+        };
+        // ===== FINE CONFIGURAZIONE =====
+        
+        // Funzioni di utilità
+        function formatDateToItalian(dateStr) {
+            const date = new Date(dateStr + 'T00:00:00');
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            return date.toLocaleDateString('it-IT', options).charAt(0).toUpperCase() + 
+                   date.toLocaleDateString('it-IT', options).slice(1);
+        }
+        
+        function dateToIcsFormat(dateStr) {
+            return dateStr.replace(/-/g, '');
+        }
+        
+        function timeToIcsFormat(timeStr) {
+            return timeStr.replace(/:/g, '') + '00';
+        }
+        
+        // Popola i metadati Open Graph dinamicamente
+        function updateOpenGraph() {
+            let ogTitle = document.querySelector('meta[property="og:title"]');
+            if (!ogTitle) {
+                ogTitle = document.createElement('meta');
+                ogTitle.setAttribute('property', 'og:title');
+                document.head.appendChild(ogTitle);
+            }
+            ogTitle.setAttribute('content', eventConfig.title);
+            
+            let ogDesc = document.querySelector('meta[property="og:description"]');
+            if (!ogDesc) {
+                ogDesc = document.createElement('meta');
+                ogDesc.setAttribute('property', 'og:description');
+                document.head.appendChild(ogDesc);
+            }
+            ogDesc.setAttribute('content', 'Evento speciale - Data, ora e luogo. Importa nel tuo calendario!');
+            
+            let ogImage = document.querySelector('meta[property="og:image"]');
+            if (!ogImage) {
+                ogImage = document.createElement('meta');
+                ogImage.setAttribute('property', 'og:image');
+                document.head.appendChild(ogImage);
+            }
+            ogImage.setAttribute('content', eventConfig.ogImage);
+            
+            let ogUrl = document.querySelector('meta[property="og:url"]');
+            if (!ogUrl) {
+                ogUrl = document.createElement('meta');
+                ogUrl.setAttribute('property', 'og:url');
+                document.head.appendChild(ogUrl);
+            }
+            ogUrl.setAttribute('content', window.location.href);
+            
+            let ogType = document.querySelector('meta[property="og:type"]');
+            if (!ogType) {
+                ogType = document.createElement('meta');
+                ogType.setAttribute('property', 'og:type');
+                document.head.appendChild(ogType);
+            }
+            ogType.setAttribute('content', 'website');
+            
+            // Aggiorna il titolo della pagina
+            document.title = eventConfig.title;
+        }
+        
+        // Popola l'interfaccia
+        function populateUI() {
+            document.getElementById('eventTitle').textContent = `🎂 ${eventConfig.title}`;
+            document.getElementById('eventSubtitle').textContent = eventConfig.subtitle;
+            document.getElementById('eventDate').textContent = formatDateToItalian(eventConfig.date);
+            document.getElementById('eventTime').textContent = `${eventConfig.startTime} - ${eventConfig.endTime}`;
+            document.getElementById('eventLocation').textContent = eventConfig.location;
+            document.getElementById('eventLocationLink').href = 
+                `geo:${eventConfig.locationCoordinates.lat},${eventConfig.locationCoordinates.lng}?q=${encodeURIComponent(eventConfig.location)}`;
+            document.getElementById('eventGuests').textContent = eventConfig.guests;
+            document.getElementById('eventDescription').textContent = eventConfig.description;
+        }
+        
+        function downloadCalendar() {
+            const ics = `BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Evento//Event//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:${eventConfig.eventId}@evento.com
+DTSTAMP:${new Date().toISOString().replace(/[-:]/g, '').split('.')[0]}Z
+DTSTART:${dateToIcsFormat(eventConfig.date)}T${timeToIcsFormat(eventConfig.startTime)}
+DTEND:${dateToIcsFormat(eventConfig.date)}T${timeToIcsFormat(eventConfig.endTime)}
+SUMMARY:${eventConfig.title}
+LOCATION:${eventConfig.location}
+DESCRIPTION:${eventConfig.description}
+END:VEVENT
+END:VCALENDAR`;
+            
+            const blob = new Blob([ics], { type: 'text/calendar' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `${eventConfig.eventId}.ics`;
+            link.click();
+            URL.revokeObjectURL(url);
+        }
+        
+        function shareWhatsApp() {
+            const url = window.location.href;
+            const text = "Partecipa all'evento!";
+            const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(text + ' ' + url)}`;
+            window.open(whatsappUrl, '_blank');
+        }
+        
+        // Esegui all'avvio
+        document.addEventListener('DOMContentLoaded', function() {
+            updateOpenGraph();
+            populateUI();
+        });
+    </script>
+</body>
+</html>
