@@ -252,9 +252,11 @@
 
             const locationLink = document.getElementById('locationLink');
             locationLink.textContent = eventConfig.location;
-            locationLink.href = eventConfig.locationCoordinates
-                ? `geo:${eventConfig.locationCoordinates.lat},${eventConfig.locationCoordinates.lng}`
-                : `geo:0,0?q=${encodeURIComponent(eventConfig.location)}`;
+            if (eventConfig.locationCoordinates && eventConfig.locationCoordinates.lat && eventConfig.locationCoordinates.lng) {
+    locationLink.href = `geo:${eventConfig.locationCoordinates.lat},${eventConfig.locationCoordinates.lng}?q=${encodeURIComponent(eventConfig.location)}`;
+} else {
+    locationLink.href = `geo:0,0?q=${encodeURIComponent(eventConfig.location)}`;
+}
 
             if (eventConfig.guests && eventConfig.guests.length > 0) {
                 document.getElementById('guests-section').style.display = 'block';
@@ -271,7 +273,6 @@
         function downloadCalendar() {
             const now = new Date();
             const timestamp = now.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
-
             const icsContent = `BEGIN:VCALENDAR
 VERSION:2.0
 PRODID:-//Event Calendar//EN
