@@ -256,6 +256,7 @@
             document.getElementById('eventLocationLink').href = 
                 `geo:${eventConfig.locationCoordinates.lat},${eventConfig.locationCoordinates.lng}?q=${encodeURIComponent(eventConfig.location)}`;
             document.getElementById('eventDescription').textContent = eventConfig.description;
+            document.getElementById('eventImage').src = eventConfig.image;
         }
         
         function downloadCalendar() {
