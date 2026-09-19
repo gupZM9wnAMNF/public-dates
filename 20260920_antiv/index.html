@@ -258,7 +258,6 @@
             document.getElementById('eventLocation').textContent = eventConfig.location;
             document.getElementById('eventLocationLink').href = 
                 `geo:${eventConfig.locationCoordinates.lat},${eventConfig.locationCoordinates.lng}?q=${encodeURIComponent(eventConfig.location)}`;
-            document.getElementById('eventGuests').textContent = eventConfig.guests;
             document.getElementById('eventDescription').textContent = eventConfig.description;
         }
         
