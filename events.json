@@ -1,0 +1,18 @@
+{
+  "base_url": "https://gupZM9wnAMNF.github.io/public-dates",
+  "events": [
+    {
+      "eventId": "20260920_antiv",
+      "title": "Generale, questa non è la sua trincea",
+      "subtitle": "Quindi, per favore, resti dietro la collina",
+      "date": "2026-09-20",
+      "startTime": "10:00",
+      "endTime": "13:00",
+      "location": "Via dei Gualtieri, 1, Orvieto",
+      "locationCoordinates": { "lat": 42.718162, "lng": 12.111515 },
+      "description": "Picchetto orvietano democratico e antifascista con microfono aperto",
+      "image": "img_antiv_20260920.jpg",
+      "guests": []
+    }
+  ]
+}
