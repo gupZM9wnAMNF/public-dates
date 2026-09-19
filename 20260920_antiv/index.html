@@ -198,7 +198,7 @@
             <button class="btn btn-secondary" onclick="shareWhatsApp()">Condividi WhatsApp</button>
         </div>
     </div>
-
+    
     <script>
        const eventConfig = {
             title: "Generale, questa non è la sua trincea",
@@ -206,14 +206,13 @@
             date: "2026-09-20",
             startTime: "10:00",
             endTime: "13:00",
-            location: "Piazza Gualterio, Orvieto",
-            locationCoordinates: { lat: 42.718084, lng:12.111327 }, // per geo URI
+            location: "Via dei Gualtieri, 1, Orvieto",
+            locationCoordinates: { lat: 42.718162, lng:12.111515 }, // per geo URI
             description: "Picchetto orvietano democratico e antifascista con microfono aperto",
             image: "https://gupZM9wnAMNF.github.io/public-dates/20260920_antiv/img_antiv_20260920.jpg",
             guests: [],
             eventId: "20260920_antiv"
         };
-        
 
         async function geocodeLocation(locationName) {
             try {
@@ -221,8 +220,12 @@
                     `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(locationName)}&format=json&limit=1`
                 );
                 const data = await response.json();
+                
                 if (data.length > 0) {
-                    return { lat: parseFloat(data[0].lat), lng: parseFloat(data[0].lon) };
+                    return {
+                        lat: parseFloat(data[0].lat),
+                        lng: parseFloat(data[0].lon)
+                    };
                 }
             } catch (error) {
                 console.error('Geocoding error:', error);
@@ -249,13 +252,9 @@
 
             const locationLink = document.getElementById('locationLink');
             locationLink.textContent = eventConfig.location;
-            
-            // Se ci sono coordinate, usa quelle per Google Maps; altrimenti usa il testo della location
-            if (eventConfig.locationCoordinates && eventConfig.locationCoordinates.lat && eventConfig.locationCoordinates.lng) {
-                locationLink.href = `https://www.google.com/maps/@${eventConfig.locationCoordinates.lat},${eventConfig.locationCoordinates.lng},15z`;
-            } else {
-                locationLink.href = `https://www.google.com/maps/search/${encodeURIComponent(eventConfig.location)}`;
-            }
+            locationLink.href = eventConfig.locationCoordinates
+                ? `geo:${eventConfig.locationCoordinates.lat},${eventConfig.locationCoordinates.lng}`
+                : `geo:0,0?q=${encodeURIComponent(eventConfig.location)}`;
 
             if (eventConfig.guests && eventConfig.guests.length > 0) {
                 document.getElementById('guests-section').style.display = 'block';
@@ -272,6 +271,7 @@
         function downloadCalendar() {
             const now = new Date();
             const timestamp = now.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
+
             const icsContent = `BEGIN:VCALENDAR
 VERSION:2.0
 PRODID:-//Event Calendar//EN
