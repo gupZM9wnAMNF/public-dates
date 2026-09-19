@@ -133,8 +133,12 @@ color: white;
         }
 
         function shareWhatsApp() {
-            const message = `📅 ${eventConfig.title}\n⏰ ${eventConfig.dateHuman}, ${eventConfig.startTime} - ${eventConfig.endTime}\n📍 ${eventConfig.location}\n\n${eventConfig.description}\n\n${eventConfig.pageUrl}`;
-            window.open(`https://wa.me/?text=${encodeURIComponent(message)}`, '_blank');
+            const message = `\u{1F4C5} ${eventConfig.title}\n\u23F0 ${eventConfig.dateHuman}, ${eventConfig.startTime} - ${eventConfig.endTime}\n\u{1F4CD} ${eventConfig.location}\n\n${eventConfig.description}\n\n${eventConfig.pageUrl}`;
+            if (navigator.share) {
+                navigator.share({ text: message }).catch(() => {});
+            } else {
+                window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(message)}`, '_blank');
+            }
         }
     </script>
 </body>
