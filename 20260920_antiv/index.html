@@ -198,9 +198,10 @@
             <button class="btn btn-secondary" onclick="shareWhatsApp()">Condividi WhatsApp</button>
         </div>
     </div>
-    
+    <a href="../" class="back-link">← Indietro</a>
+
     <script>
-        const eventConfig = {
+      const eventConfig = {
             title: "Generale, questa non è la sua trincea",
             subtitle: "Quindi, per favore, resti dietro la collina",
             date: "2026-09-20",
@@ -253,7 +254,7 @@
             const locationLink = document.getElementById('locationLink');
             locationLink.textContent = eventConfig.location;
             locationLink.href = eventConfig.locationCoordinates
-                ? `geo:${eventConfig.locationCoordinates.lat},${eventConfig.locationCoordinates.lng}`
+                ? `geo:${eventConfig.locationCoordinates.lat},${eventConfig.locationCoordinates.lng}?q=${encodeURIComponent(eventConfig.location)}`
                 : `geo:0,0?q=${encodeURIComponent(eventConfig.location)}`;
 
             if (eventConfig.guests && eventConfig.guests.length > 0) {
@@ -310,3 +311,4 @@ END:VCALENDAR`;
     </script>
 </body>
 </html>
+
