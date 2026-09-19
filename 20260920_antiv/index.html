@@ -243,7 +243,7 @@
             }
 
             document.getElementById('pageTitle').textContent = eventConfig.title;
-            document.querySelector('meta[property="og:title"]').setAttribute('content', eventConfig.title);
+            document.getElementById('ogTitle').setAttribute('content', eventConfig.title);
 
             document.getElementById('eventTitle').textContent = eventConfig.title;
             document.getElementById('eventSubtitle').textContent = eventConfig.subtitle;
