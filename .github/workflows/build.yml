@@ -1,1 +1,24 @@
+name: Build eventi
 
+on:
+  push:
+    branches: [main]
+    paths: [events.json, template.html, build.py]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 build.py
+      - name: Commit pagine generate
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git diff --cached --quiet || git commit -m "Genera pagine eventi"
+          git push
